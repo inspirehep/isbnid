@@ -1,0 +1,2 @@
+include isbn/data/*.xml
+include MANIFEST.in
