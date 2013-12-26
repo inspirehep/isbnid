@@ -5,11 +5,14 @@ from distutils.core import setup, Extension
 # digit = Extension('isbn.digit', sources = ['isbn/digitmodule.c'])
 # chyphen = Extension('isbn.chyphen', sources = ['isbn/chyphenmodule.c'])
 
-setup(name = 'isbnid',
+setup(
+    name = 'isbnid',
     version = '0.2.2',
+    author = 'ISBNid GitHub',
+    author_email = 'pdfnorm@gmx.com',
     description = "Python ISBN ids",
     license = "LGPL",
-    url = 'http://code.google.com/p/isbnid/',
+    url = 'https://github.com/nekobcn/isbnid',
     classifiers = [
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
