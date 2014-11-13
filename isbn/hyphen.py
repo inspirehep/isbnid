@@ -17,7 +17,8 @@ import pkg_resources, sys
 
 
 # Interpretes current ISBN agency ranges
-# Data obtained from http://www.isbn-international.org/agency?rmxml=1
+# Data obtained from https://www.isbn-international.org/
+# https://www.isbn-international.org/export_rangemessage.xml
 
 class ISBNRangeError(Exception):
     def __init__(self, value):
