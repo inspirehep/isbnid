@@ -7,7 +7,7 @@ from distutils.core import setup, Extension
 
 setup(
     name = 'isbnid',
-    version = '0.2.2',
+    version = '0.3.0',
     author = 'ISBNid GitHub',
     author_email = 'pdfnorm@gmx.com',
     description = "Python ISBN ids",
@@ -24,7 +24,6 @@ setup(
         ],
     packages = ['isbn'],
     package_dir = {'isbn': 'isbn'},
-    package_data = {'isbn': ['data/*.xml']}
     )
     
 
