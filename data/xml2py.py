@@ -71,14 +71,6 @@ __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
 __version__ = '0.3.0'
 
-try:
-    from xml.etree.cElementTree import ElementTree
-except ImportError:
-    from xml.etree.ElementTree import ElementTree
-    
-import pkg_resources, sys
-
-
 # Interpretes current ISBN agency ranges
 # Data obtained from https://www.isbn-international.org/
 # https://www.isbn-international.org/export_rangemessage.xml
@@ -132,7 +124,7 @@ class ISBNRange(object):
         pub = 9 - grp - reg
         chk = 1
         
-        return [3, grp, reg, pub, 1]
+        return [pre, grp, reg, pub, chk]
 
     @staticmethod
     def hyphenformat(isbn):    

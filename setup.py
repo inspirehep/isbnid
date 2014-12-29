@@ -7,7 +7,7 @@ from distutils.core import setup, Extension
 
 setup(
     name = 'isbnid',
-    version = '0.3.0',
+    version = '0.3.1',
     author = 'ISBNid GitHub',
     author_email = 'pdfnorm@gmx.com',
     description = "Python ISBN ids",
