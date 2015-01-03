@@ -10,6 +10,4 @@ __version__ = '0.3.1'
 
 from . isbn import ISBN, ISBNError
 
-__all__ = ['ISBN', 'ISBNError',
-    'ISBN10_RE', 'ISBN10_NRE', 'ISBN13_RE', 'ISBN13_NR'
-    ]
+__all__ = ['ISBN', 'ISBNError']

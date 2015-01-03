@@ -6,7 +6,7 @@
 
 __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-__version__ = '0.3.0'
+__version__ = '0.3.1'
 
 from xml.etree.ElementTree import ElementTree
 
@@ -47,21 +47,26 @@ class XML2PY(object):
                 self._range_reg[prefix + end] = length                 
                 
     def pycode(self):
-        print('    _range_grp = {')
+        begin = None
+        print('    _range_grp = [')
         for grp in sorted(self._range_grp.keys()):
             if grp[-1] != '9':
-                print('        "{}": {},'.format(self.to13char(grp)[:],self._range_grp[grp]))
-        print('    }\n')
+                begin = self.to13char(grp)[:]
+            else:
+                print("        ['{}', '{}', {}],".format(begin, self.to13char(grp)[:],self._range_grp[grp]))
+        print('    ]\n')
         
-        print('    _range_reg = {')
+        print('    _range_reg = [')
         for reg in sorted(self._range_reg.keys()):
             if reg[-1] != '9':
-                print('        "{}": {},'.format(self.to13char(reg)[:],self._range_reg[reg]))
-        print('    }')    
+                begin = self.to13char(reg)[:]
+            else:
+                print("        ['{}', '{}', {}],".format(begin, self.to13char(reg)[:],self._range_reg[reg]))
+        print('    ]\n')    
     
 if __name__ == '__main__':
-    print('''
-#!/usr/bin/env python
+
+    print('''#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # Hypatia: Module ISBN Range [hyphen]
@@ -69,17 +74,11 @@ if __name__ == '__main__':
 
 __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-__version__ = '0.3.0'
+__version__ = '0.3.1'
 
 # Interpretes current ISBN agency ranges
 # Data obtained from https://www.isbn-international.org/
 # https://www.isbn-international.org/export_rangemessage.xml
-
-class ISBNRangeError(Exception):
-    def __init__(self, value):
-        self.value = value
-    def __str__(self):
-        return repr(self.value)
 
 # ISBN Structure
 #
@@ -88,39 +87,39 @@ class ISBNRangeError(Exception):
 # Registrant Element
 # Publication Element
 # Check Digit
+''')
+    print(open('rtree.py').read())
+    print('''
+class ISBNRangeError(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
 
+        
 class ISBNRange(object):      
-''')      
+''')    
     xml2py = XML2PY('RangeMessage.xml')
     xml2py.pycode()
-    print('''
+    print('''    _tree_grp = RangeList(_range_grp)
+    _tree_reg = RangeList(_range_reg)
+    
     def __init__(self, url = None): # url or filename
         pass
 
     @staticmethod
     def hyphensegments(isbn):
-        grp = None
-        reg = None
-
-        for igrp in sorted(ISBNRange._range_grp.keys()):
-            if isbn <= igrp:
-                break
-            grp = igrp
-        for ireg in sorted(ISBNRange._range_reg.keys()):
-            if isbn <= ireg:
-                break
-            reg = ireg
-            
+        grp = ISBNRange._tree_grp.search(isbn)
+        reg = ISBNRange._tree_reg.search(isbn)          
+        
         # pre, grp, reg, pub, chk
 
         pre = 3
-        if not grp or isbn > igrp: # None or 0
+        if not grp:
             raise ISBNRangeError(isbn)
-        grp = ISBNRange._range_grp[grp]
-        if not reg or isbn > ireg: # None or 0
+        if not reg:
             raise ISBNRangeError(isbn)
                 
-        reg = ISBNRange._range_reg[reg]        
         pub = 9 - grp - reg
         chk = 1
         
