@@ -27,6 +27,8 @@ class XML2PY(object):
         tree.parse(xmlfile)
         root = tree.getroot()
         
+        self._serial = root[1].text
+        self._date = root[2].text
         uccgrp = root[3]
         grpreg = root[4]
         
@@ -48,6 +50,8 @@ class XML2PY(object):
                 
     def pycode(self):
         begin = None
+        print('    _serial = "{}"'.format(self._serial))
+        print('    _date = "{}"\n'.format(self._date))
         print('    _range_grp = [')
         for grp in sorted(self._range_grp.keys()):
             if grp[-1] != '9':

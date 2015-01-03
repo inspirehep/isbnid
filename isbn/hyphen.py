@@ -78,6 +78,9 @@ class ISBNRangeError(Exception):
         
 class ISBNRange(object):      
 
+    _serial = "10e63ac6-5e93-4525-a0e5-ee13bcbb398d"
+    _date = "Fri, 5 Dec 2014 18:25:03 CET"
+
     _range_grp = [
         ['9780000000000', '9785999999999', 1],
         ['9786000000000', '9786499999999', 3],
