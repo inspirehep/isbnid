@@ -6,7 +6,7 @@
 
 __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-__version__ = '0.3.1'
+__version__ = '0.3.2'
 
 from xml.etree.ElementTree import ElementTree
 
@@ -78,7 +78,7 @@ if __name__ == '__main__':
 
 __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-__version__ = '0.3.1'
+__version__ = '0.3.2'
 
 # Interpretes current ISBN agency ranges
 # Data obtained from https://www.isbn-international.org/
@@ -91,9 +91,57 @@ __version__ = '0.3.1'
 # Registrant Element
 # Publication Element
 # Check Digit
-''')
-    print(open('rtree.py').read())
-    print('''
+
+
+class RangeNode(object):
+        
+    def __init__(self, start, end, length, prev = None, next = None):
+        self._start = start
+        self._end = end
+        self._length = length
+        self._prev = prev
+        self._next = next
+            
+    def search(self, value):
+        if (value < self._start):
+            if (self._prev):
+                return self._prev.search(value)
+            else:
+                return 0
+        if (self._end < value):
+            if (self._next):
+                return self._prev.search(value)            
+            else:
+                return 0
+        return self._length
+        
+
+class RangeList(object):
+        
+    def __init__(self, range, prev = None, next = None):
+        self._range = range
+        self._prev = None
+        self._next = None
+            
+    def search(self, value):
+        if (value < self._range[0][0]):
+            if (self._prev):
+                return self._prev.search(value)
+            else:
+                return 0
+        if (self._range[-1][1] < value):
+            if (self._next):
+                return self._prev.search(value)            
+            else:
+                return 0
+        
+        for begin, end, length in self._range:
+            if (begin <= value and value <= end):
+                return length;
+        
+        return 0
+
+        
 class ISBNRangeError(Exception):
     def __init__(self, value):
         self.value = value
@@ -103,8 +151,7 @@ class ISBNRangeError(Exception):
         
 class ISBNRange(object):      
 ''')    
-    xml2py = XML2PY('RangeMessage.xml')
-    xml2py.pycode()
+    XML2PY('RangeMessage.xml').pycode()    
     print('''    _tree_grp = RangeList(_range_grp)
     _tree_reg = RangeList(_range_reg)
     

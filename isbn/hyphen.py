@@ -6,7 +6,7 @@
 
 __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-__version__ = '0.3.1'
+__version__ = '0.3.2'
 
 # Interpretes current ISBN agency ranges
 # Data obtained from https://www.isbn-international.org/
@@ -20,6 +20,7 @@ __version__ = '0.3.1'
 # Publication Element
 # Check Digit
 
+
 class RangeNode(object):
         
     def __init__(self, start, end, length, prev = None, next = None):
@@ -30,12 +31,12 @@ class RangeNode(object):
         self._next = next
             
     def search(self, value):
-        if (self._start > value):
+        if (value < self._start):
             if (self._prev):
                 return self._prev.search(value)
             else:
                 return 0
-        if (value < self._end):
+        if (self._end < value):
             if (self._next):
                 return self._prev.search(value)            
             else:
@@ -51,7 +52,7 @@ class RangeList(object):
         self._next = None
             
     def search(self, value):
-        if (self._range[0][0] > value):
+        if (value < self._range[0][0]):
             if (self._prev):
                 return self._prev.search(value)
             else:
@@ -68,7 +69,7 @@ class RangeList(object):
         
         return 0
 
-
+        
 class ISBNRangeError(Exception):
     def __init__(self, value):
         self.value = value
