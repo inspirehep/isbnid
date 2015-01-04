@@ -6,4 +6,4 @@ python:
 install:
   - pip install .
 script:
-  - py.test ./test/test.py
+  - py.test ./tests/test.py

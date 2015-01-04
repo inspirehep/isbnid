@@ -12,6 +12,7 @@ setup(
     description = "Python ISBN ids",
     license = "LGPL",
     url = 'https://github.com/nekobcn/isbnid',
+    keywords = 'ISBN',
     classifiers = [
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
