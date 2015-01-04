@@ -88,7 +88,9 @@ class ISBN(object):
     def hyphen(self):
         '''
         Returns ISBN number with segment hypenation
-        Data obtained from http://www.isbn-international.org/agency?rmxml=1
+        Data obtained from https://www.isbn-international.org/
+        https://www.isbn-international.org/export_rangemessage.xml
+        @return: ISBN formated as ISBN13 with hyphens
         '''
         if not ISBN.hyphenRange:
             ISBN.hyphenRange = hyphen.ISBNRange()

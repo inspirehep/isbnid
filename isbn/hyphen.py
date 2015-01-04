@@ -8,7 +8,7 @@ __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
 __version__ = '0.3.2'
 
-# Interpretes current ISBN agency ranges
+# Interprets current ISBN agency ranges
 # Data obtained from https://www.isbn-international.org/
 # https://www.isbn-international.org/export_rangemessage.xml
 
@@ -16,7 +16,7 @@ __version__ = '0.3.2'
 #
 # Prefix Element: 978, 979
 # Registration Group Element
-# Registrant Element
+# Registrar Element
 # Publication Element
 # Check Digit
 
