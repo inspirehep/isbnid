@@ -8,7 +8,7 @@ isbnid can also output ISBN numbers with the correct hyphens corresponding to th
 
 ## Install
 
-The simplest way to install it in python is to execute. 
+isbnid has no dependences. The simplest way to install it in python is to execute. 
 
     pip install isbnid
 
