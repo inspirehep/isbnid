@@ -66,7 +66,7 @@ class ISBN(object):
         Raises exception if str is not a valid ISBN
         @type  str: string
         @param str: ISBN Number, either ISBN10 or ISBN13
-        '''        
+        '''
         test = _normalize(str)
         self._id = None
         if len(test) == 13 and _digit13(test[:-1]) == int(test[12]):
@@ -92,7 +92,7 @@ class ISBN(object):
         '''
         if not ISBN.hyphenRange:
             ISBN.hyphenRange = hyphen.ISBNRange()
-                    
+
         return ISBN.hyphenRange.hyphenformat(self._id)
 
     def isbn10(self):
@@ -114,7 +114,7 @@ class ISBN(object):
         '''
         Encode ISBN number in ISBN13 format (default encoding)
         @rtype:  string
-        @return: ISBN formated as ISBN10        
+        @return: ISBN formated as ISBN10
         '''
         return self._id
 
@@ -122,7 +122,7 @@ class ISBN(object):
         '''
         ISBN URN RFC 3187
         @rtype:  string
-        @return: ISBN formated as URN        
+        @return: ISBN formated as URN
         '''
         return 'URN:ISBN:{}'.format(self._id)
 

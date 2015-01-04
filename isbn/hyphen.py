@@ -22,14 +22,14 @@ __version__ = '0.3.2'
 
 
 class RangeNode(object):
-        
+
     def __init__(self, start, end, length, prev = None, next = None):
         self._start = start
         self._end = end
         self._length = length
         self._prev = prev
         self._next = next
-            
+
     def search(self, value):
         if (value < self._start):
             if (self._prev):
@@ -38,19 +38,24 @@ class RangeNode(object):
                 return 0
         if (self._end < value):
             if (self._next):
-                return self._prev.search(value)            
+                return self._prev.search(value)
             else:
                 return 0
         return self._length
-        
+
+    def balance(self):
+        pass
+
 
 class RangeList(object):
-        
+
+    MINLIST = 10;
+
     def __init__(self, range, prev = None, next = None):
         self._range = range
         self._prev = None
         self._next = None
-            
+
     def search(self, value):
         if (value < self._range[0][0]):
             if (self._prev):
@@ -59,25 +64,33 @@ class RangeList(object):
                 return 0
         if (self._range[-1][1] < value):
             if (self._next):
-                return self._prev.search(value)            
+                return self._next.search(value)
             else:
                 return 0
-        
         for begin, end, length in self._range:
             if (begin <= value and value <= end):
                 return length;
-        
         return 0
 
-        
+    def balance(self):
+        if (len(self._range) >= (RangeList.MINLIST + 2) and
+            not self._prev and not self._next):
+            lenl = (len(self._range) - RangeList.MINLIST) // 2
+            self._prev = RangeList(self._range[:lenl])
+            self._prev.balance()
+            self._next = RangeList(self._range[-lenl:])
+            self._next.balance()
+            self._range = self._range[lenl:-lenl]
+
+
 class ISBNRangeError(Exception):
     def __init__(self, value):
         self.value = value
     def __str__(self):
         return repr(self.value)
 
-        
-class ISBNRange(object):      
+
+class ISBNRange(object):
 
     _serial = "10e63ac6-5e93-4525-a0e5-ee13bcbb398d"
     _date = "Fri, 5 Dec 2014 18:25:03 CET"
@@ -1169,16 +1182,18 @@ class ISBNRange(object):
     ]
 
     _tree_grp = RangeList(_range_grp)
+    _tree_grp.balance()
     _tree_reg = RangeList(_range_reg)
-    
+    _tree_reg.balance()
+
     def __init__(self, url = None): # url or filename
         pass
 
     @staticmethod
     def hyphensegments(isbn):
         grp = ISBNRange._tree_grp.search(isbn)
-        reg = ISBNRange._tree_reg.search(isbn)          
-        
+        reg = ISBNRange._tree_reg.search(isbn)
+
         # pre, grp, reg, pub, chk
 
         pre = 3
@@ -1186,28 +1201,28 @@ class ISBNRange(object):
             raise ISBNRangeError(isbn)
         if not reg:
             raise ISBNRangeError(isbn)
-                
+
         pub = 9 - grp - reg
         chk = 1
-        
+
         return [pre, grp, reg, pub, chk]
 
     @staticmethod
-    def hyphenformat(isbn):    
+    def hyphenformat(isbn):
         pos = []
         start = 0
-        
+
         for i in ISBNRange.hyphensegments(isbn):
             pos.append(isbn[start:start + i])
             start = start + i
-            
+
         return '-'.join(pos)
-        
+
 def _doctest ():
     import doctest
     doctest.testmod()
 
 if __name__ == '__main__':
-    _doctest()     
-      
+    _doctest()
+
 

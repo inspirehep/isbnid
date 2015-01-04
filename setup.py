@@ -2,12 +2,11 @@
 
 from distutils.core import setup, Extension
 
-# digit = Extension('isbn.digit', sources = ['isbn/digitmodule.c'])
-# chyphen = Extension('isbn.chyphen', sources = ['isbn/chyphenmodule.c'])
+from isbn import __version__
 
 setup(
     name = 'isbnid',
-    version = '0.3.1',
+    version = __version__,
     author = 'ISBNid GitHub',
     author_email = 'pdfnorm@gmx.com',
     description = "Python ISBN ids",
@@ -25,5 +24,5 @@ setup(
     packages = ['isbn'],
     package_dir = {'isbn': 'isbn'},
     )
-    
+
 
