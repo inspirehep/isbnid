@@ -6,7 +6,7 @@
 
 __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-__version__ = '0.3.2'
+__version__ = '0.4.0'
 
 from xml.etree.ElementTree import ElementTree
 
@@ -78,7 +78,7 @@ if __name__ == '__main__':
 
 __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-__version__ = '0.3.2'
+__version__ = '0.4.0'
 
 # Interpretes current ISBN agency ranges
 # Data obtained from https://www.isbn-international.org/

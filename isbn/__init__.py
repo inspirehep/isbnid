@@ -6,7 +6,7 @@
 
 __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-__version__ = '0.3.4'
+__version__ = '0.4.0'
 
 from . isbn import ISBN, ISBNError
 
