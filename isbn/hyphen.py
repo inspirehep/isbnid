@@ -1184,12 +1184,16 @@ class ISBNRange(object):
         ['9791220100000', '9791299999999', 0],
     ]
 
-
+    _tree_grp = None
+    _tree_reg = None
+    
     def __init__(self, url = None): # url or filename
-        ISBNRange._tree_grp = RangeList(ISBNRange._range_grp)
-        ISBNRange._tree_grp.balance()
-        ISBNRange._tree_reg = RangeList(ISBNRange._range_reg)
-        ISBNRange._tree_reg.balance()
+        if (not ISBNRange._tree_grp):
+            ISBNRange._tree_grp = RangeList(ISBNRange._range_grp)
+            ISBNRange._tree_grp.balance()
+        if (not ISBNRange._tree_reg):            
+            ISBNRange._tree_reg = RangeList(ISBNRange._range_reg)
+            ISBNRange._tree_reg.balance()
 
     @staticmethod
     def hyphensegments(isbn):
