@@ -8,7 +8,7 @@ __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
 __version__ = '0.4.0'
 
-# Interprets current ISBN agency ranges
+# Interpretes current ISBN agency ranges
 # Data obtained from https://www.isbn-international.org/
 # https://www.isbn-international.org/export_rangemessage.xml
 
@@ -16,9 +16,11 @@ __version__ = '0.4.0'
 #
 # Prefix Element: 978, 979
 # Registration Group Element
-# Registrar Element
+# Registrant Element
 # Publication Element
 # Check Digit
+
+import time
 
 
 class RangeNode(object):
@@ -93,7 +95,8 @@ class ISBNRangeError(Exception):
 class ISBNRange(object):
 
     _serial = "10e63ac6-5e93-4525-a0e5-ee13bcbb398d"
-    _date = "Fri, 5 Dec 2014 18:25:03 CET"
+    _sdate = "Fri, 5 Dec 2014 18:25:03 CET"
+    _tdate = (2014, 12, 5, 18, 25, 3, 0, 1, -1)
 
     _range_grp = [
         ['9780000000000', '9785999999999', 1],
@@ -1181,31 +1184,22 @@ class ISBNRange(object):
         ['9791220100000', '9791299999999', 0],
     ]
 
-    _tree_grp = RangeList(_range_grp)
-    _tree_grp.balance()
-    _tree_reg = RangeList(_range_reg)
-    _tree_reg.balance()
 
     def __init__(self, url = None): # url or filename
-        pass
+        ISBNRange._tree_grp = RangeList(ISBNRange._range_grp)
+        ISBNRange._tree_grp.balance()
+        ISBNRange._tree_reg = RangeList(ISBNRange._range_reg)
+        ISBNRange._tree_reg.balance()
 
     @staticmethod
     def hyphensegments(isbn):
         grp = ISBNRange._tree_grp.search(isbn)
         reg = ISBNRange._tree_reg.search(isbn)
-
-        # pre, grp, reg, pub, chk
-
-        pre = 3
         if not grp:
             raise ISBNRangeError(isbn)
         if not reg:
             raise ISBNRangeError(isbn)
-
-        pub = 9 - grp - reg
-        chk = 1
-
-        return [pre, grp, reg, pub, chk]
+        return [3, grp, reg, 9 - grp - reg, 1]
 
     @staticmethod
     def hyphenformat(isbn):

@@ -8,6 +8,8 @@ __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
 __version__ = '0.4.0'
 
+import email.utils
+
 from xml.etree.ElementTree import ElementTree
 
 
@@ -28,7 +30,8 @@ class XML2PY(object):
         root = tree.getroot()
 
         self._serial = root[1].text
-        self._date = root[2].text
+        self._sdate = root[2].text
+        self._tdate = email.utils.parsedate(self._sdate)
         uccgrp = root[3]
         grpreg = root[4]
 
@@ -51,7 +54,8 @@ class XML2PY(object):
     def pycode(self):
         begin = None
         print('    _serial = "{}"'.format(self._serial))
-        print('    _date = "{}"\n'.format(self._date))
+        print('    _sdate = "{}"'.format(self._sdate))
+        print('    _tdate = {}\n'.format(self._tdate))
         print('    _range_grp = [')
         for grp in sorted(self._range_grp.keys()):
             if grp[-1] != '9':
@@ -91,6 +95,8 @@ __version__ = '0.4.0'
 # Registrant Element
 # Publication Element
 # Check Digit
+
+import time
 
 
 class RangeNode(object):
@@ -165,31 +171,22 @@ class ISBNRangeError(Exception):
 class ISBNRange(object):
 ''')
     XML2PY('RangeMessage.xml').pycode()
-    print('''    _tree_grp = RangeList(_range_grp)
-    _tree_grp.balance()
-    _tree_reg = RangeList(_range_reg)
-    _tree_reg.balance()
-
+    print('''
     def __init__(self, url = None): # url or filename
-        pass
+        ISBNRange._tree_grp = RangeList(ISBNRange._range_grp)
+        ISBNRange._tree_grp.balance()
+        ISBNRange._tree_reg = RangeList(ISBNRange._range_reg)
+        ISBNRange._tree_reg.balance()
 
     @staticmethod
     def hyphensegments(isbn):
         grp = ISBNRange._tree_grp.search(isbn)
         reg = ISBNRange._tree_reg.search(isbn)
-
-        # pre, grp, reg, pub, chk
-
-        pre = 3
         if not grp:
             raise ISBNRangeError(isbn)
         if not reg:
             raise ISBNRangeError(isbn)
-
-        pub = 9 - grp - reg
-        chk = 1
-
-        return [pre, grp, reg, pub, chk]
+        return [3, grp, reg, 9 - grp - reg, 1]
 
     @staticmethod
     def hyphenformat(isbn):
