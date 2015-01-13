@@ -99,32 +99,6 @@ __version__ = '0.4.0'
 import time
 
 
-class RangeNode(object):
-
-    def __init__(self, start, end, length, prev = None, next = None):
-        self._start = start
-        self._end = end
-        self._length = length
-        self._prev = prev
-        self._next = next
-
-    def search(self, value):
-        if (value < self._start):
-            if (self._prev):
-                return self._prev.search(value)
-            else:
-                return 0
-        if (self._end < value):
-            if (self._next):
-                return self._prev.search(value)
-            else:
-                return 0
-        return self._length
-
-    def balance(self):
-        pass
-
-
 class RangeList(object):
 
     MINLIST = 10;
