@@ -17,8 +17,8 @@
 ]>
 <ISBNRangeMessage>
   <MessageSource>International ISBN Agency</MessageSource>
-  <MessageSerialNumber>10e63ac6-5e93-4525-a0e5-ee13bcbb398d</MessageSerialNumber>
-  <MessageDate>Fri, 5 Dec 2014 18:25:03 CET</MessageDate>
+  <MessageSerialNumber>fff17fa4-49ba-4212-8a4e-440ca8dc38df</MessageSerialNumber>
+  <MessageDate>Tue, 10 Mar 2015 13:17:36 CET</MessageDate>
   <EAN.UCCPrefixes>
     <EAN.UCC>
       <Prefix>978</Prefix>
@@ -117,11 +117,7 @@
           <Length>2</Length>
         </Rule>
         <Rule>
-          <Range>1000000-3299999</Range>
-          <Length>3</Length>
-        </Rule>
-        <Rule>
-          <Range>3300000-3999999</Range>
+          <Range>1000000-3999999</Range>
           <Length>3</Length>
         </Rule>
         <Rule>
@@ -415,8 +411,12 @@
       <Agency>Indonesia</Agency>
       <Rules>
         <Rule>
-          <Range>0000000-0899999</Range>
+          <Range>0000000-0799999</Range>
           <Length>2</Length>
+        </Rule>
+        <Rule>
+          <Range>0800000-0899999</Range>
+          <Length>4</Length>
         </Rule>
         <Rule>
           <Range>0900000-1099999</Range>
@@ -2713,6 +2713,58 @@
       </Rules>
     </Group>
     <Group>
+      <Prefix>978-9924</Prefix>
+      <Agency>Cambodia</Agency>
+      <Rules>
+        <Rule>
+          <Range>0000000-2999999</Range>
+          <Length>0</Length>
+        </Rule>
+        <Rule>
+          <Range>3000000-3999999</Range>
+          <Length>2</Length>
+        </Rule>
+        <Rule>
+          <Range>4000000-4999999</Range>
+          <Length>0</Length>
+        </Rule>
+        <Rule>
+          <Range>5000000-6499999</Range>
+          <Length>3</Length>
+        </Rule>
+        <Rule>
+          <Range>6500000-8999999</Range>
+          <Length>0</Length>
+        </Rule>
+        <Rule>
+          <Range>9000000-9999999</Range>
+          <Length>4</Length>
+        </Rule>
+      </Rules>
+    </Group>
+    <Group>
+      <Prefix>978-9925</Prefix>
+      <Agency>Cyprus</Agency>
+      <Rules>
+        <Rule>
+          <Range>0000000-2999999</Range>
+          <Length>1</Length>
+        </Rule>
+        <Rule>
+          <Range>3000000-5499999</Range>
+          <Length>2</Length>
+        </Rule>
+        <Rule>
+          <Range>5500000-7349999</Range>
+          <Length>3</Length>
+        </Rule>
+        <Rule>
+          <Range>7350000-9999999</Range>
+          <Length>4</Length>
+        </Rule>
+      </Rules>
+    </Group>
+    <Group>
       <Prefix>978-9926</Prefix>
       <Agency>Bosnia and Herzegovina</Agency>
       <Rules>
@@ -4206,7 +4258,7 @@
     </Group>
     <Group>
       <Prefix>978-99902</Prefix>
-      <Agency>Gabon (reserved)</Agency>
+      <Agency>Reserved Agency</Agency>
       <Rules>
         <Rule>
           <Range>0000000-9999999</Range>
@@ -5134,7 +5186,7 @@
     </Group>
     <Group>
       <Prefix>978-99951</Prefix>
-      <Agency>Congo, The Democratic Republic</Agency>
+      <Agency>Reserved Agency</Agency>
       <Rules>
         <Rule>
           <Range>0000000-9999999</Range>
