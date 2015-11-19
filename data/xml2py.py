@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 # isbnid: Convert XMLRangeMessage.xml to Python code
@@ -6,7 +6,7 @@
 
 __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-__version__ = '0.4.0'
+__version__ = '0.4.1'
 
 import email.utils
 
@@ -82,7 +82,7 @@ if __name__ == '__main__':
 
 __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-__version__ = '0.4.0'
+__version__ = '0.4.1'
 
 # Interpretes current ISBN agency ranges
 # Data obtained from https://www.isbn-international.org/
