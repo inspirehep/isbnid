@@ -17,8 +17,13 @@
 ]>
 <ISBNRangeMessage>
   <MessageSource>International ISBN Agency</MessageSource>
+<<<<<<< HEAD
   <MessageSerialNumber>41e5b148-c033-4211-827e-bff390f9f330</MessageSerialNumber>
   <MessageDate>Fri, 8 Jan 2016 13:27:34 CET</MessageDate>
+=======
+  <MessageSerialNumber>380afa6a-e9d2-4779-952e-1fc47e119362</MessageSerialNumber>
+  <MessageDate>Tue, 22 Dec 2015 12:00:14 CET</MessageDate>
+>>>>>>> 2d72488b9a6003ed273ec82d0c070b3740da7e1a
   <EAN.UCCPrefixes>
     <EAN.UCC>
       <Prefix>978</Prefix>
