@@ -5,7 +5,7 @@ Python ISBN identifier library
 
 isbnid is a simple library to handle ISBN identification numbers. isbnid will store, check and convert ISBNs in ISBN10, and ISBN13 formats and it will transform between them and output in URN form.
 
-isbnid can also output ISBN numbers with the correct hyphens corresponding to the actual issuance authorities. The information is retrieved from <https://www.isbn-international.org/>. ISBN numbers have a complex internal structure which rougly represents the country, the language and the publisher. See also <https://en.wikipedia.org/wiki/ISBN>.
+isbnid can also output ISBN numbers with the correct hyphens corresponding to the actual issuance authorities. The information is retrieved from <https://www.isbn-international.org/>. ISBN numbers have a complex internal structure which roughly represents the country, the language and the publisher. See also <https://en.wikipedia.org/wiki/ISBN>.
 
 Install
 -------
