@@ -10,7 +10,7 @@ setup(
     author = 'ISBNid GitHub',
     author_email = 'pdfnorm@gmx.com',
     description = "Python ISBN ids",
-    license = "LGPL",
+    license = "GPL",
     url = 'https://github.com/nekobcn/isbnid',
     keywords = 'ISBN',
     classifiers = [
