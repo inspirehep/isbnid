@@ -6,7 +6,7 @@
 
 __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-__version__ = '0.4.1'
+__version__ = '0.4.4'
 
 # Interpretes current ISBN agency ranges
 # Data obtained from https://www.isbn-international.org/

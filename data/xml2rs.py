@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# isbnid: Convert XMLRangeMessage.xml to Python code
+# isbnid: Convert XMLRangeMessage.xml to Rust code
 #
 
 __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-__version__ = '0.4.2'
+__version__ = '0.4.4'
 
 import email.utils
 
 from xml.etree.ElementTree import ElementTree
 
 
-class XML2PY(object):
+class XML2RS(object):
     _range_grp = {}
     _range_reg = {}
 
@@ -51,138 +51,73 @@ class XML2PY(object):
                 self._range_reg[prefix + start] = length
                 self._range_reg[prefix + end] = length
 
-    def pycode(self):
+    def rscode_grp(self):
         begin = None
+        '''
         print('    _serial = "{}"'.format(self._serial))
         print('    _sdate = "{}"'.format(self._sdate))
         print('    _tdate = {}\n'.format(self._tdate))
         print('    _range_grp = [')
+        '''
+        
+        print("static RANGE_GRP: [(&'static str, &'static str, usize); {}] = [".format(int(len(self._range_grp) / 2)))
         for grp in sorted(self._range_grp.keys()):
             if grp[-1] != '9':
                 begin = self.to13char(grp)[:]
             else:
-                print("        ['{}', '{}', {}],".format(begin, self.to13char(grp)[:],self._range_grp[grp]))
-        print('    ]\n')
-
-        print('    _range_reg = [')
+                print("    (\"{}\", \"{}\", {}), ".format(begin, self.to13char(grp)[:], self._range_grp[grp]))
+        
+    def rscode_reg(self):
+        begin = None        
+        
+        print("static RANGE_REG: [(&'static str, &'static str, usize); {}] = [".format(int(len(self._range_reg) / 2)))
         for reg in sorted(self._range_reg.keys()):
             if reg[-1] != '9':
                 begin = self.to13char(reg)[:]
             else:
-                print("        ['{}', '{}', {}],".format(begin, self.to13char(reg)[:],self._range_reg[reg]))
-        print('    ]\n')
+                print("    (\"{}\", \"{}\", {}), ".format(begin, self.to13char(reg)[:], self._range_reg[reg]))
+                
+        
 
 if __name__ == '__main__':
+    xrs = XML2RS('RangeMessage.xml')
+    print('''///! Auto generated from RangeMessage.xml
 
-    print('''#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Hypatia: Module ISBN Range [hyphen]
-#
-
-__author__ = "Neko"
-__license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-__version__ = '0.4.1'
-
-# Interpretes current ISBN agency ranges
-# Data obtained from https://www.isbn-international.org/
-# https://www.isbn-international.org/export_rangemessage.xml
-
-# ISBN Structure
-#
-# Prefix Element: 978, 979
-# Registration Group Element
-# Registrant Element
-# Publication Element
-# Check Digit
-
-import time
-
-
-class RangeList(object):
-
-    MINLIST = 10;
-
-    def __init__(self, range, prev = None, next = None):
-        self._range = range
-        self._prev = None
-        self._next = None
-
-    def search(self, value):
-        if (value < self._range[0][0]):
-            if (self._prev):
-                return self._prev.search(value)
-            else:
-                return 0
-        if (self._range[-1][1] < value):
-            if (self._next):
-                return self._next.search(value)
-            else:
-                return 0
-        for begin, end, length in self._range:
-            if (begin <= value and value <= end):
-                return length;
-        return 0
-
-    def balance(self):
-        if (len(self._range) >= (RangeList.MINLIST + 2) and
-            not self._prev and not self._next):
-            lenl = (len(self._range) - RangeList.MINLIST) // 2
-            self._prev = RangeList(self._range[:lenl])
-            self._prev.balance()
-            self._next = RangeList(self._range[-lenl:])
-            self._next.balance()
-            self._range = self._range[lenl:-lenl]
-
-
-class ISBNRangeError(Exception):
-    def __init__(self, value):
-        self.value = value
-    def __str__(self):
-        return repr(self.value)
-
-
-class ISBNRange(object):
 ''')
-    XML2PY('RangeMessage.xml').pycode()
-    print('''    _tree_grp = None
-    _tree_reg = None
+    xrs.rscode_grp()
+    print('''];
+''')
+    XML2RS('RangeMessage.xml').rscode_reg()        
+    print('''];
+
+fn bisect(range: &[(&'static str, &'static str, usize)], id: &str) -> usize {
+    let mut lo: usize = 0;
+    let mut hi: usize = range.len() ;
+    let mut mid;
+
+    while lo < hi {
+        mid = (lo + hi) / 2;
+        let (start, _, _) = range[mid];
+        if id < start {
+            hi = mid
+        } else {
+            lo = mid + 1
+        }
+    }
+    range[lo - 1].2
+}
+
+pub fn segments(id: &str) -> (usize, usize, usize) {
+    let grp = bisect(&RANGE_GRP, id);
+    let reg = bisect(&RANGE_REG, id);
     
-    def __init__(self, url = None): # url or filename
-        if (not ISBNRange._tree_grp):
-            ISBNRange._tree_grp = RangeList(ISBNRange._range_grp)
-            ISBNRange._tree_grp.balance()
-        if (not ISBNRange._tree_reg):            
-            ISBNRange._tree_reg = RangeList(ISBNRange._range_reg)
-            ISBNRange._tree_reg.balance()
+    if grp == 0 || reg == 0 {
+        (0, 0, 0)
+    } else {
+        (grp, reg, 9 - grp - reg)
+    }
+}    
 
-    @staticmethod
-    def hyphensegments(isbn):
-        grp = ISBNRange._tree_grp.search(isbn)
-        reg = ISBNRange._tree_reg.search(isbn)
-        if not grp:
-            raise ISBNRangeError(isbn)
-        if not reg:
-            raise ISBNRangeError(isbn)
-        return [3, grp, reg, 9 - grp - reg, 1]
 
-    @staticmethod
-    def hyphenformat(isbn):
-        pos = []
-        start = 0
-
-        for i in ISBNRange.hyphensegments(isbn):
-            pos.append(isbn[start:start + i])
-            start = start + i
-
-        return '-'.join(pos)
-
-def _doctest ():
-    import doctest
-    doctest.testmod()
-
-if __name__ == '__main__':
-    _doctest()
-
-''')
+''')    
 

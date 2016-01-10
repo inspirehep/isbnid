@@ -6,7 +6,7 @@
 
 __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-__version__ = '0.4.2'
+__version__ = '0.4.4'
 
 import re
 from . import hyphen
@@ -127,6 +127,20 @@ class ISBN(object):
         @return: ISBN formated as URN
         '''
         return 'URN:ISBN:{}'.format(self._id)
+    
+    def doi(self):
+        '''
+        Returns ISBN number with segment hypenation
+        Data obtained from https://www.isbn-international.org/
+        https://www.isbn-international.org/export_rangemessage.xml
+        @return: ISBN formated as ISBN13 with hyphens
+        '''
+        if not ISBN.hyphenRange:
+            ISBN.hyphenRange = hyphen.ISBNRange()
+            
+        seg = ISBN.hyphenRange.hyphensegments(self._id)                        
+        return '10.' + self._id[0:3] + '.' + \
+            self._id[3:-(1+seg[3])]  + '/' + self._id[-(1+seg[3]):]
 
     @staticmethod
     def valid(str):
