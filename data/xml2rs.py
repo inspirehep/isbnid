@@ -95,16 +95,27 @@ fn bisect(range: &[(&'static str, &'static str, usize)], id: &str) -> usize {
     let mut hi: usize = range.len() ;
     let mut mid;
 
+    if id < range[0].0 || id > range[range.len() - 1].1 {
+        return 0;
+    }
     while lo < hi {
         mid = (lo + hi) / 2;
-        let (start, _, _) = range[mid];
+        let (start, end, _) = range[mid];
         if id < start {
             hi = mid
-        } else {
+        } else if id > end {
             lo = mid + 1
+        } else {
+            lo = mid;
+            break;
         }
     }
-    range[lo - 1].2
+    let (start, end, rng) = range[lo];
+    if start <= id && id <= end {
+        rng
+    } else {
+        0
+    }
 }
 
 pub fn segments(id: &str) -> (usize, usize, usize) {
@@ -117,7 +128,5 @@ pub fn segments(id: &str) -> (usize, usize, usize) {
         (grp, reg, 9 - grp - reg)
     }
 }    
-
-
 ''')    
 
