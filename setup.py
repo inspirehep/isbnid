@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 
-from distutils.core import setup, Extension
+from distutils.core import setup
 
 from isbn import __version__
 
 setup(
-    name = 'isbnid',
+    name = 'isbnid_fork',
     version = __version__,
     author = 'ISBNid GitHub',
-    author_email = 'pdfnorm@gmx.com',
+    author_email = 'admin@inspirehep.net',
     description = "Python ISBN ids",
     license = "GPL",
-    url = 'https://github.com/nekobcn/isbnid',
+    url = 'https://github.com/inspirehep/isbnid',
     keywords = 'ISBN',
     classifiers = [
         "Development Status :: 4 - Beta",
@@ -26,5 +26,3 @@ setup(
     packages = ['isbn'],
     package_dir = {'isbn': 'isbn'},
     )
-
-
