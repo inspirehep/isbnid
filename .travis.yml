@@ -1,9 +1,17 @@
 language: python
 python:
-  - 2.7
-  - 3.3
-  - 3.4
+- 2.7
+- 3.4
 install:
-  - pip install .
+- pip install .
 script:
-  - py.test ./tests/test.py
+- py.test ./tests/test.py
+deploy:
+  provider: pypi
+  user: inspirehep
+  distribution: sdist
+  password:
+    secure: DG+cOlEZBkPyXfSBOSF2UElUHIucT3alafE6oWi3ftUKf8c4peQnZbteGPNszkeZfGbYpuppE9mhO/ml2iaewc86kXJnbOZoI5Cosu11j88MjpZ3v67TGNF3A/o/M3N/y/PXwd7qZUTYfWWBXDD6QoNJCOmRnDySt/ojTREkzV2xlSeroIV5tWO7IMPIMcGfPaoWdxwQwazEcdBEY3Qi1hQNmAQsXA9G3eW4XFny17ViAYuZftQutvsfWANEeZg+TIX/JfMxmMsTuwAl732ect9hsrCOG+K8YWVbxjMEJFqXOke59ZCOWISt7ZTNbydtEXhfYGF0Nkf2T13IM79YIzNLwDPPcQ7PDBTh8oc1OaBo85MumHLLkXv/zWckbdAWF+TiHI1kfL6QKj5Da/uIiweprxRFjIu99T3QK/Okxunn/ZqFAJ+HvRgDzhlg5Jhbn3rJxWfDmckR3wZNPlJ32LChtMI2ESSpRpJNfxGSna7/OgtS6vroz9jwQ25CCU+dbncNtTIr8Ek7AJcTXNY5Eh4U6iO7mKb6VfVRiUYKROaoTYKoJaWSYaU8Nm2f3wnI91nrmGPIwCV7F6jxIK9IBMzj3YWPFd2dKDMntsFGFOjyu+YfyejQoTXt7vEdIKtFToYFMUs/Awl4DfgjiK8VXY8HD+Mm3G/NoLMq+JUJEIE=
+  on:
+    branch: master
+    python: '2.7'
