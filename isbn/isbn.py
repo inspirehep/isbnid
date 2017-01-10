@@ -6,7 +6,6 @@
 
 __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-__version__ = '0.4.4'
 
 import re
 from . import hyphen
