@@ -1,11 +1,16 @@
 language: python
-python:
-- 2.7
-- 3.5
+matrix:
+  include:
+  - python: 2.7
+    env:
+    - PEP8=true
+  - python: 3.5
 install:
+- pip install --upgrade pip
 - pip install .
+- pip install .[tests]
 script:
-- py.test ./tests/test.py
+- ./run_tests.sh ${PEP8}
 deploy:
   provider: pypi
   user: inspirehep

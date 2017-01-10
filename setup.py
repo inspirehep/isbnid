@@ -3,6 +3,10 @@
 from setuptools import setup
 
 
+extras_require = {
+    'tests': 'pytest-pep8>=1.0.6',
+}
+
 setup(
     name = 'isbnid_fork',
     author = 'ISBNid GitHub',
@@ -11,6 +15,7 @@ setup(
     license = "GPL",
     url = 'https://github.com/inspirehep/isbnid',
     keywords = 'ISBN',
+    extras_require=extras_require,
     classifiers = [
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
