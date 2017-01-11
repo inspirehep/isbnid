@@ -4,11 +4,11 @@
 # Hypatia: Module ISBN [isbn]
 #
 
-__author__ = "Neko"
-__license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
-
 import re
 from . import hyphen
+
+__author__ = "Neko"
+__license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
 
 # ISBN: Internal ISBN13 string
 
@@ -18,25 +18,28 @@ ISBN10_NRE = '(\d(-| )?){9}(x|X|\d)'
 ISBN13_RE = '(?P<isbn13>(\d(-| )?){12}(\d))'
 ISBN13_NRE = '(\d(-| )?){12}(\d)'
 
+
 def _normalize(str):
     if not re.match('^(\d(-| )?){9}(x|X|\d|(\d(-| )?){3}\d)$', str):
         raise ISBNError("Invalid ISBN format: {}".format(str))
 
     return re.sub('[^0-9X]', '', str.upper())
 
+
 def _digit10(isbn):
     assert len(isbn) == 9
     product = 0
-    for n in range(1,10):
-        product += int(isbn[n-1]) * n
+    for n in range(1, 10):
+        product += int(isbn[n - 1]) * n
     return product % 11
+
 
 def _digit13(isbn):
     assert len(isbn) == 12
     product = 0
-    for n in range(0,6):
-        product += int(isbn[2*n]) * 1
-        product += int(isbn[2*n+1]) * 3
+    for n in range(0, 6):
+        product += int(isbn[2 * n]) * 1
+        product += int(isbn[2 * n + 1]) * 3
     return (- product) % 10
 
 # hypenrng = hypen.HypenData('/home/elric/.nimbus/RangeMessage.xml')
@@ -49,11 +52,15 @@ def _digit13(isbn):
 # Publication Element           pub
 # Check Digit                   chk
 
+
 class ISBNError(Exception):
+
     def __init__(self, value):
         self.value = value
+
     def __str__(self):
         return repr(self.value)
+
 
 class ISBN(object):
 
@@ -75,9 +82,11 @@ class ISBN(object):
         if len(test) == 10:
             digit10 = _digit10(test[:-1])
             if digit10 == 10 and test[9] == 'X':
-                self._id = '978' + test[:-1] + repr(_digit13('978' + test[:-1]))
+                self._id = '978' + test[:-1] + \
+                    repr(_digit13('978' + test[:-1]))
             if test[9] != 'X' and digit10 == int(test[9]):
-                self._id = '978' + test[:-1] + repr(_digit13('978' + test[:-1]))
+                self._id = '978' + test[:-1] + \
+                    repr(_digit13('978' + test[:-1]))
         if not self._id:
             raise ISBNError("Invalid ISBN check digit: {}".format(str))
 
@@ -126,7 +135,7 @@ class ISBN(object):
         @return: ISBN formated as URN
         '''
         return 'URN:ISBN:{}'.format(self._id)
-    
+
     def doi(self):
         '''
         Returns ISBN number with segment hypenation
@@ -136,10 +145,10 @@ class ISBN(object):
         '''
         if not ISBN.hyphenRange:
             ISBN.hyphenRange = hyphen.ISBNRange()
-            
-        seg = ISBN.hyphenRange.hyphensegments(self._id)                        
+
+        seg = ISBN.hyphenRange.hyphensegments(self._id)
         return '10.' + self._id[0:3] + '.' + \
-            self._id[3:-(1+seg[3])]  + '/' + self._id[-(1+seg[3]):]
+            self._id[3:-(1 + seg[3])] + '/' + self._id[-(1 + seg[3]):]
 
     @staticmethod
     def valid(str):
@@ -150,7 +159,7 @@ class ISBN(object):
         return True
 
 
-def _doctest ():
+def _doctest():
     import doctest
     doctest.testmod()
 
