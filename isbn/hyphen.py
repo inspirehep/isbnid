@@ -4,13 +4,14 @@
 # Hypatia: Module ISBN Range [hyphen]
 #
 
+import time
+
 __author__ = "Neko"
 __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
 
 # Interpretes current ISBN agency ranges
 # Data obtained from https://www.isbn-international.org/
 # https://www.isbn-international.org/export_rangemessage.xml
-
 # ISBN Structure
 #
 # Prefix Element: 978, 979
@@ -19,14 +20,12 @@ __license__ = 'LGPL http://www.gnu.org/licenses/lgpl.txt'
 # Publication Element
 # Check Digit
 
-import time
-
 
 class RangeList(object):
 
-    MINLIST = 10;
+    MINLIST = 10
 
-    def __init__(self, range, prev = None, next = None):
+    def __init__(self, range, prev=None, next=None):
         self._range = range
         self._prev = None
         self._next = None
@@ -44,12 +43,12 @@ class RangeList(object):
                 return 0
         for begin, end, length in self._range:
             if (begin <= value and value <= end):
-                return length;
+                return length
         return 0
 
     def balance(self):
         if (len(self._range) >= (RangeList.MINLIST + 2) and
-            not self._prev and not self._next):
+                not self._prev and not self._next):
             lenl = (len(self._range) - RangeList.MINLIST) // 2
             self._prev = RangeList(self._range[:lenl])
             self._prev.balance()
@@ -59,8 +58,10 @@ class RangeList(object):
 
 
 class ISBNRangeError(Exception):
+
     def __init__(self, value):
         self.value = value
+
     def __str__(self):
         return repr(self.value)
 
@@ -1187,12 +1188,12 @@ class ISBNRange(object):
 
     _tree_grp = None
     _tree_reg = None
-    
-    def __init__(self, url = None): # url or filename
+
+    def __init__(self, url=None):  # url or filename
         if (not ISBNRange._tree_grp):
             ISBNRange._tree_grp = RangeList(ISBNRange._range_grp)
             ISBNRange._tree_grp.balance()
-        if (not ISBNRange._tree_reg):            
+        if (not ISBNRange._tree_reg):
             ISBNRange._tree_reg = RangeList(ISBNRange._range_reg)
             ISBNRange._tree_reg.balance()
 
@@ -1217,11 +1218,10 @@ class ISBNRange(object):
 
         return '-'.join(pos)
 
-def _doctest ():
+
+def _doctest():
     import doctest
     doctest.testmod()
 
 if __name__ == '__main__':
     _doctest()
-
-
