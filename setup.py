@@ -32,7 +32,7 @@ setup(
     packages=['isbn'],
     package_dir={
         'isbn': 'isbn'},
-    install_requires=['autosemver~=0.2'],
+    install_requires=[],
     setup_requires=['autosemver~=0.2'],
     autosemver={
         'bugtracker_url': 'https://github.com/inspirehep/isbnid/issues'},
