@@ -15,10 +15,16 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - name: Bump version
-        uses: actions/bumpversion@v2
+
+      - name: Bump version and push tag
+        uses: jaumann/github-bumpversion-action@v0.0.7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push changes
+        uses: ad-m/github-push-action@master
         with:
-          new_version: minor
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tags: true
       - name: Install dependencies
         run: pip install -e .
       - name: Publish a Python distribution to PyPI
