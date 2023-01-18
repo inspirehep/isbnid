@@ -1,0 +1,27 @@
+name: Release to PyPI
+
+on:
+  push:
+    branches:
+      - without-autosemver
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Bump version
+        uses: actions/bumpversion@v2
+        with:
+          new_version: minor
+      - name: Install dependencies
+        run: pip install -e .
+      - name: Publish a Python distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_PASSWORD }}

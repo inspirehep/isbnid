@@ -4,20 +4,17 @@ from setuptools import setup
 
 
 extras_require = {
-    'tests': [
-        'pytest-pep8>=1.0.6',
-        'pytest>=3.0.4'
-    ],
+    "tests": ["pytest-pep8>=1.0.6", "pytest>=3.0.4"],
 }
 
 setup(
-    name='isbnid_fork',
-    author='ISBNid GitHub',
-    author_email='admin@inspirehep.net',
+    name="isbnid_fork",
+    author="ISBNid GitHub",
+    author_email="admin@inspirehep.net",
     description="Python ISBN ids",
     license="GPL",
-    url='https://github.com/inspirehep/isbnid',
-    keywords='ISBN',
+    url="https://github.com/inspirehep/isbnid",
+    keywords="ISBN",
     extras_require=extras_require,
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -29,11 +26,6 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Text Processing :: Indexing",
     ],
-    packages=['isbn'],
-    package_dir={
-        'isbn': 'isbn'},
-    install_requires=['autosemver~=0.2'],
-    setup_requires=['autosemver~=0.2'],
-    autosemver={
-        'bugtracker_url': 'https://github.com/inspirehep/isbnid/issues'},
+    packages=["isbn"],
+    package_dir={"isbn": "isbn"},
 )
